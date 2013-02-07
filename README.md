@@ -1,4 +1,4 @@
-dotfiles
-========
+danielMitD's dotfiles
+=====================
 
-my to files :)
+My dot files, used on zsh shell.
