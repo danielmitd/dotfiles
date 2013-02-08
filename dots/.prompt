@@ -27,8 +27,10 @@ parse_git_dirty() {
 # show svn branch
 parse_svn_branch() {
   if [[ -d .svn ]]; then
-    svn info 2>/dev/null | sed -n 's/Basis\ des\ Projektarchivs:\ .*\///p' | read SVN_ROOT
-    svn info 2>/dev/null | sed -n "s/URL:\ .*$SVN_ROOT\///p" | sed "s/branches\///" | sed "s/\/.*$//"
+    #local svn_info = $(svn info --xml 2>/dev/null)
+    #local svn_root = $(echo "${svn_info}" | grep "<root>" | sed 's/<[^>]*>//g')
+    #echo "${svn_info}" | grep "<url>" | sed "s/${svn_root}//g"
+    # svn info 2>/dev/null | sed -n "s/URL:\ .*$SVN_ROOT\///p" | sed "s/branches\///" | sed "s/\/.*$//"
   fi
 }
 
