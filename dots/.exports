@@ -3,7 +3,7 @@ export EDITOR="vim"
 export SVN_EDITOR='subl -w'
 
 # larger bash history and ignore duplicate
-export SAVEHIST=1
+export SAVEHIST=32768
 export HISTSIZE=32768
 export HISTFILESIZE=$HISTSIZE
 export HISTCONTROL=ignoredups:ignorespace
