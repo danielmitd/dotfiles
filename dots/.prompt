@@ -19,7 +19,7 @@ parse_changes() {
   diff=$(git rev-list --left-right master...HEAD 2>/dev/null)
   ahead=$(echo ${diff} | grep '^>' | wc -l | tr -d " " 2>/dev/null)
   let "behind = $(echo ${diff} | wc -l | tr -d ' ') - $ahead"
-  [ -n "$ahead" ] && echo " ↑$ahead↓$behind"
+  echo " ↑$ahead↓$behind"
 }
  
 # show dirty or clean icon
