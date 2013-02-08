@@ -3,9 +3,14 @@ export EDITOR="vim"
 export SVN_EDITOR='subl -w'
 
 # larger bash history and ignore duplicate
+export SAVEHIST=1
 export HISTSIZE=32768
 export HISTFILESIZE=$HISTSIZE
-export HISTCONTROL=ignoredups
+export HISTCONTROL=ignoredups:ignorespace
+export HISTFILE=~/.zsh_history
+
+setopt APPEND_HISTORY
+setopt EXTENDED_HISTORY
 
 # make some commands not show up in history
 export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
