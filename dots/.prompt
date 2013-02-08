@@ -14,6 +14,13 @@ ZSH_THEME_PROMPT_CLEAN="%{$fg[green]%}✔%{$reset_color%} "
 parse_git_branch() {
   (command git symbolic-ref -q HEAD || command git name-rev --name-only --no-undefined --always HEAD) 2>/dev/null
 }
+
+parse_changes() {
+  diff=$(git rev-list --left-right master...HEAD 2>/dev/null)
+  ahead=$(echo ${diff} | grep '^>' | wc -l | tr -d " " 2>/dev/null)
+  let "behind = $(echo ${diff} | wc -l | tr -d ' ') - $ahead"
+  [ -n "$ahead" ] && echo " ↑$ahead↓$behind"
+}
  
 # show dirty or clean icon
 parse_git_dirty() {
@@ -27,10 +34,10 @@ parse_git_dirty() {
 # show svn branch
 parse_svn_branch() {
   if [[ -d .svn ]]; then
-    #local svn_info = $(svn info --xml 2>/dev/null)
-    #local svn_root = $(echo "${svn_info}" | grep "<root>" | sed 's/<[^>]*>//g')
-    #echo "${svn_info}" | grep "<url>" | sed "s/${svn_root}//g"
-    # svn info 2>/dev/null | sed -n "s/URL:\ .*$SVN_ROOT\///p" | sed "s/branches\///" | sed "s/\/.*$//"
+    svn_info=$(svn info --xml 2>/dev/null)
+    svn_root=$(echo "${svn_info}" | grep "<root>" | sed 's/<[^>]*>//g')
+    svn_url=$(echo "${svn_info}" | grep "<url>"| sed 's/<[^>]*>//g')
+    echo "${svn_url#${svn_root}}"
   fi
 }
 
@@ -48,8 +55,8 @@ parse_svn_dirty() {
 custom_status() {
   local git_where="$(parse_git_branch)"
   local svn_where="$(parse_svn_branch)"
-  [ -n "$git_where" ] && echo "$(parse_git_dirty)$ZSH_THEME_GIT_PROMPT_PREFIX${git_where#(refs/heads/|tags/)}$ZSH_THEME_GIT_PROMPT_SUFFIX"
-  [ -n "$svn_where" ] && echo "$(parse_svn_dirty)$ZSH_THEME_SVN_PROMPT_PREFIX${svn_where#(refs/heads/|tags/)}$ZSH_THEME_SVN_PROMPT_SUFFIX"
+  [ -n "$git_where" ] && echo "$(parse_git_dirty)$ZSH_THEME_GIT_PROMPT_PREFIX${git_where#(refs/heads/|tags/)}$(parse_changes)$ZSH_THEME_GIT_PROMPT_SUFFIX"
+  [ -n "$svn_where" ] && echo "$(parse_svn_dirty)$ZSH_THEME_SVN_PROMPT_PREFIX${svn_where#(/)}$ZSH_THEME_SVN_PROMPT_SUFFIX"
 }
  
 RPS1='$(custom_status) $EPS1'
