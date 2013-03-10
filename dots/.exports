@@ -6,9 +6,12 @@ export SVN_EDITOR='subl -w'
 export SAVEHIST=32768
 export HISTSIZE=32768
 export HISTFILESIZE=$HISTSIZE
-export HISTCONTROL=ignoredups:ignorespace
 export HISTFILE=~/.zsh_history
 
+setopt SHARE_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_ALL_DUPS
+setopt INC_APPEND_HISTORY
 setopt APPEND_HISTORY
 setopt EXTENDED_HISTORY
 
