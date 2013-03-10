@@ -16,8 +16,8 @@ parse_git_branch() {
 }
 
 parse_changes() {
-  behind=$(git log --oneline HEAD..origin | wc -l | tr -d " ")
-  ahead=$( git log --oneline origin..HEAD | wc -l | tr -d " ")
+  behind=$(git log --oneline HEAD..origin/master | wc -l | tr -d " ")
+  ahead=$(git log --oneline origin/master..HEAD | wc -l | tr -d " ")
   echo " ↑$ahead↓$behind"
 }
  
