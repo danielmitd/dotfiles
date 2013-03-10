@@ -16,9 +16,8 @@ parse_git_branch() {
 }
 
 parse_changes() {
-  diff=$(git rev-list --left-right master...HEAD 2>/dev/null)
-  ahead=$(echo ${diff} | grep '^>' | wc -l | tr -d " " 2>/dev/null)
-  let "behind = $(echo ${diff} | wc -l | tr -d ' ') - $ahead"
+  behind=$(git log --oneline HEAD..origin | wc -l | tr -d " ")
+  ahead=$( git log --oneline origin..HEAD | wc -l | tr -d " ")
   echo " ↑$ahead↓$behind"
 }
  
