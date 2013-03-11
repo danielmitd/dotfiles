@@ -27,6 +27,7 @@
 	autocrlf = false
 	whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
 	excludesfile = ~/.gitignore_global
+	editor = "/usr/bin/subl -w"
 [credential]
 	helper = osxkeychain
 [color]
