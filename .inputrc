@@ -1,7 +1,0 @@
-"\e[B": history-search-forward
-"\e[A": history-search-backward
-"\e[3~": delete-char
-"\e[5C": forward-word
-"\e[5D": backward-word
-
-set completion-ignore-case On
