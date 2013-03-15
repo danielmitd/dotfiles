@@ -1,0 +1,52 @@
+# show git branch/tag, or name-rev if on detached head
+parse_git_branch() {
+  (command git symbolic-ref -q HEAD || command git name-rev --name-only --no-undefined --always HEAD) 2>/dev/null
+}
+
+parse_changes() {
+  behind=$(git log --oneline HEAD..origin/master | wc -l | tr -d " ")
+  ahead=$(git log --oneline origin/master..HEAD | wc -l | tr -d " ")
+  echo " $ZSH_THEME_PROMPT_AHEAD$ahead$ZSH_THEME_PROMPT_BEHIND$behind"
+}
+
+parse_svn_changes() {
+  ahead=$(svn status| wc -l | tr -d " ")
+  echo " $ZSH_THEME_PROMPT_AHEAD$ahead"
+}
+ 
+# show dirty or clean icon
+parse_git_dirty() {
+  if command git diff-index --quiet HEAD 2> /dev/null; then
+    echo "$ZSH_THEME_PROMPT_CLEAN"
+  else
+    echo "$ZSH_THEME_PROMPT_DIRTY"
+  fi
+}
+
+# show svn branch
+parse_svn_branch() {
+  if [[ -d .svn ]]; then
+    svn_info=$(svn info --xml 2>/dev/null)
+    svn_root=$(echo "${svn_info}" | grep "<root>" | sed 's/<[^>]*>//g')
+    svn_url=$(echo "${svn_info}" | grep "<url>"| sed 's/<[^>]*>//g')
+    echo "${svn_url#${svn_root}}"
+  fi
+}
+
+# show dirty or clean icon
+parse_svn_dirty() {
+  s=$(svn status 2>/dev/null |grep -E '^\s*[ACDIM!?L]' 2>/dev/null)
+  if [ $s ]; then 
+    echo "$ZSH_THEME_PROMPT_DIRTY"
+  else 
+    echo "$ZSH_THEME_PROMPT_CLEAN"
+  fi
+}
+ 
+# if in a git repo, show dirty indicator + git branch
+custom_status() {
+  local git_where="$(parse_git_branch)"
+  local svn_where="$(parse_svn_branch)"
+  [ -n "$git_where" ] && echo "$(parse_git_dirty)$ZSH_THEME_GIT_PROMPT_PREFIX${git_where#(refs/heads/|tags/)}$(parse_changes)$ZSH_THEME_GIT_PROMPT_SUFFIX"
+  [ -n "$svn_where" ] && echo "$(parse_svn_dirty)$ZSH_THEME_SVN_PROMPT_PREFIX${${svn_where#*/branches}[(ws:/:)1]}$(parse_svn_changes)$ZSH_THEME_SVN_PROMPT_SUFFIX"
+}
