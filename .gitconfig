@@ -51,8 +51,6 @@
 [mergetool "sublime"]
 	cmd = subl -w $MERGED
 	trustExitCode = false
-[merge]
-	tool = Kaleidoscope
 [mergetool "Kaleidoscope"]
 	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
 	trustExitCode = true
@@ -62,3 +60,5 @@
 	user = danielmitd
 [ghi]
 	token = ece68d808ca03e265befe378a5a00f445aa46750
+[merge]
+	tool = Kaleidoscope
