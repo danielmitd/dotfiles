@@ -118,3 +118,5 @@ alias xhprof_disable='unset XHPROF_PROFILE'
 # encoding conversion
 alias toLatin1="iconv --from-code=UTF-8 --to-code=Windows-1252"
 alias toUtf8="iconv --from-code=Windows-1252 --to-code=UTF-8"
+
+alias git=hub
