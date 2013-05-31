@@ -46,12 +46,19 @@
     added = yellow
     changed = green
     untracked = cyan
+[push]
+	default = matching
+[mergetool "sublime"]
+	cmd = subl -w $MERGED
+	trustExitCode = false
 [mergetool "Kaleidoscope"]
 	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
 	trustExitCode = true
 [mergetool]
 	prompt = false
+[github]
+	user = danielmitd
+[ghi]
+	token = ece68d808ca03e265befe378a5a00f445aa46750
 [merge]
 	tool = Kaleidoscope
-[push]
-	default = matching
