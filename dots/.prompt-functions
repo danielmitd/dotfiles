@@ -25,11 +25,16 @@ parse_svn_branch() {
     svn_root=$(echo "${svn_info}" | grep "<root>" | sed 's/<[^>]*>//g')
     svn_url=$(echo "${svn_info}" | grep "<url>"| sed 's/<[^>]*>//g')
 
-    # dirty?
-    branch_path="${${svn_url#${svn_root}}#*/branches}"
-    cur_path="${branch_path#*\/[a-z-]*\/}"
+    branch_name="${${${svn_url#${svn_root}}#*/branches}[(ws:/:)1]}"
+    cur_path=$PWD
 
-    echo "$(parse_svn_dirty ${PWD%${cur_path}})$ZSH_THEME_SVN_PROMPT_PREFIX${branch_path[(ws:/:)1]}"
+    # go up until reaching the "master folder"
+    while ( [[ -d "${cur_path%/*}/.svn" ]] ) ; do
+      cur_path="${cur_path%/*}"
+    done
+
+    # dirty?
+    echo "$(parse_svn_dirty ${cur_path})$ZSH_THEME_SVN_PROMPT_PREFIX${branch_name}"
   fi
 }
 
