@@ -9,5 +9,5 @@ Install without git
 -------------------
 
 ```
-cd /; curl -#L https://github.com/danielmitd/dotfiles/tarball/master | tar -xzv --strip-components 1 --exclude={README.md}
+cd; curl -#L https://github.com/danielmitd/dotfiles/tarball/master | tar -xzv --strip-components 1 --exclude={README.md}
 ```
