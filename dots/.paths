@@ -1,15 +1,15 @@
 # gnu coreutils
-PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+PATH="/usr/local/bin:/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
 # newer mysql binaries
 export PATH=/usr/local/mysql/bin:$PATH
-
-# git stuff
-export PATH=/usr/local/git/bin:$PATH
 
 # phposx
 export PATH=/usr/local/php5/bin:$PATH
 
 # Add `~/bin` to the `$PATH`
 export PATH="$HOME/bin:$PATH"
+
+# Add RVM to PATH for scripting
+PATH=$PATH:$HOME/.rvm/bin
