@@ -6,8 +6,8 @@ parse_git_branch() {
 parse_changes() {
   if $(git remote | grep -iq 'origin') ;then
     local git_where="$(parse_git_branch)"
-    behind=$(git log --oneline HEAD..origin/${git_where} | wc -l | tr -d " ")
-    ahead=$(git log --oneline origin/${git_where}..HEAD | wc -l | tr -d " ")
+    behind=$(git log --oneline HEAD..origin/${git_where} 2>/dev/null | wc -l | tr -d " ")
+    ahead=$(git log --oneline origin/${git_where}..HEAD 2>/dev/null | wc -l | tr -d " ")
     echo " $ZSH_THEME_PROMPT_AHEAD$ahead$ZSH_THEME_PROMPT_BEHIND$behind"
   else
     echo " $ZSH_THEME_PROMPT_AHEAD!$ZSH_THEME_PROMPT_BEHIND!"
