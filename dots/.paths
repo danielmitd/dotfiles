@@ -1,12 +1,7 @@
-# gnu coreutils
-PATH="/usr/local/bin:/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+export PATH=/usr/local/sbin:/usr/local/bin:$PATH
 
 # newer mysql binaries
 export PATH=/usr/local/mysql/bin:$PATH
-
-# phposx
-export PATH=/usr/local/php5/bin:$PATH
 
 # Add `~/bin` to the `$PATH`
 export PATH="$HOME/bin:$PATH"
