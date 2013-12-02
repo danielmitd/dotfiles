@@ -1,6 +1,8 @@
 # show git branch/tag, or name-rev if on detached head
 parse_git_branch() {
-  command git name-rev --name-only --no-undefined --always HEAD 2>/dev/null
+  ref=$(git symbolic-ref HEAD 2> /dev/null) || \
+  ref=$(git rev-parse --short HEAD 2> /dev/null) || return
+  echo ${ref#refs/heads/}
 }
 
 parse_changes() {
