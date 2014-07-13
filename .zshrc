@@ -1,9 +1,9 @@
 umask 002
 
 # Load the other dotfiles
-for file in ~/dots/.{keys,prompt,exports,aliases,paths,completion}; do
+for file in ~/.dotfiles/.{keys,prompt,exports,aliases,paths,completion}; do
     [ -r "$file" ] && source "$file"
 done
 unset file
 
-. ./z/z.sh
+. ~/.dotfiles/z/z.sh

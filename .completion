@@ -1,6 +1,5 @@
 # thanks to http://scottlinux.com/2011/08/19/quick-intro-to-zsh-auto-complete/
-
-fpath=(~/dots/completion $fpath)
+fpath=("~/.dotfiles/completion" $fpath)
 
 autoload -Uz compinit
 compinit

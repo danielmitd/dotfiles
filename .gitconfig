@@ -61,4 +61,7 @@
 [github]
     user = danielmitd
 [merge]
-    tool = Kaleidoscope
+	tool = Kaleidoscope
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f
