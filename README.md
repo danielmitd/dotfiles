@@ -1,13 +1,12 @@
 danielMitD's dotfiles
 =====================
 
-My dot files, used on zsh shell.
+![screenshot.png](./screenshot.png)
 
-Main source: [Mathias’s dotfiles](https://github.com/mathiasbynens/dotfiles)
+Install
+-------
 
-Install without git
--------------------
-
-```
-cd; curl -#L https://github.com/danielmitd/dotfiles/tarball/master | tar -xzv --strip-components 1 --exclude={README.md}
+```bash
+git clone git@github.com:danielmitd/dotfiles.git .dotfiles
+cd .dotfiles; ./bootstrap.sh
 ```
