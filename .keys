@@ -27,3 +27,10 @@ key[PageDown]=${terminfo[knp]}
 # history search
 [[ -n "${key[PageUp]}"   ]]  && bindkey  "${key[PageUp]}"    history-beginning-search-backward
 [[ -n "${key[PageDown]}" ]]  && bindkey  "${key[PageDown]}"  history-beginning-search-forward
+
+# word movements
+bindkey -e
+bindkey '^[[1;9A' end-of-line
+bindkey '^[[1;9B' beginning-of-line
+bindkey '^[[1;9C' forward-word
+bindkey '^[[1;9D' backward-word
