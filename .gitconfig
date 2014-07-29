@@ -14,6 +14,7 @@
 
     # Show files ignored by git:
     ign = ls-files -o -i --exclude-standard
+    up = pull --rebase
 [difftool "Kaleidoscope"]
     cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
 [difftool]

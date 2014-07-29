@@ -1,23 +1,22 @@
-#compdef svnswitch
+#compdef svnmerge
 
-_svnswitch() {
+_svnmerge() {
     local state url
     typeset -A opt_args
 
     _arguments \
-        '1: :->repo'
+        '(-m)-m[branch to merge into trunk]:merge:->merge' \
+        '(-r)-r[revision to start merge from]::' \
+        && return 0
 
     case $state in
-    repo)
+    merge)
         if [[ -d .svn ]]; then
             url=`svn info | grep 'Repository Root' | awk '{print $NF}'`
             svn list "$url/branches" | while IFS= read -r branch; do compadd ${branch%/}; done
-            compadd "trunk"
-        else
-            _files
         fi
     ;;
     esac
 }
 
-_svnswitch "$@"
+_svnmerge "$@"
