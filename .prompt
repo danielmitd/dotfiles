@@ -6,9 +6,7 @@ parse_git_dirty() {
   local GIT_STATUS=''
   GIT_STATUS=$(command git status -s 2> /dev/null | tail -n1)
   if [[ -n $GIT_STATUS ]]; then
-    echo "$ZSH_THEME_GIT_PROMPT_DIRTY"
-  else
-    echo "$ZSH_THEME_GIT_PROMPT_CLEAN"
+    echo 1
   fi
 }
 
@@ -73,7 +71,7 @@ prompt_git() {
     dirty=$(parse_git_dirty)
     ref=$(git symbolic-ref HEAD 2> /dev/null) || ref="➦ $(git show-ref --head -s --abbrev |head -n1 2> /dev/null)"
     if [[ -n $dirty ]]; then
-      prompt_segment yellow black
+      prompt_segment red black
     else
       prompt_segment green black
     fi
