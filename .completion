@@ -1,5 +1,5 @@
 dir=`dirname $0`
-fpath=("$dir/completion" $fpath)
+fpath=("$dir/completion" "$dir/zsh-completions/src" $fpath)
 
 autoload -Uz compinit
 compinit
