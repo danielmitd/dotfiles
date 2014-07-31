@@ -13,10 +13,10 @@ alias oo="open ."
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
 	colorflag="--color"
-else if ls -G > /dev/null 2>&1; then # Solaris `ls`
+elif ls -G > /dev/null 2>&1; then # OS X `ls`
     colorflag="-G"
 else # OS X `ls`
-	colorflag="-G"
+	colorflag=""
 fi
 
 # List all files colorized in long format
