@@ -49,7 +49,7 @@ prompt_segment() {
 # Context: user@hostname (who am I and where am I)
 prompt_context() {
   local user=`whoami`
-  prompt_segment black default "%(!.%{$fg[yellow]}.)$user@%m"
+  prompt_segment black default "%(!.%{$fg[red]%}.)$user@%m"
 }
 
 # End the prompt, closing any open segments
@@ -104,11 +104,11 @@ prompt_dir() {
 prompt_status() {
   local symbols
   symbols=()
-  [[ $RETVAL -ne 0 ]] && symbols+="%{$fg[red]%}✘ "
-  [[ $UID -eq 0 ]] && symbols+="%{$fg[yellow]%}⚡ "
-  [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="%{$fg[cyan]%}⚙ "
+  [[ $RETVAL -ne 0 ]] && symbols+="%{$fg[red]%}✘"
+  [[ $UID -eq 0 ]] && symbols+="%{$fg[yellow]%}⚡"
+  [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="%{$fg[cyan]%}⚙"
 
-  [[ -n "$symbols" ]] && prompt_segment black default "$symbols"
+  [[ -n "$symbols" ]] && prompt_segment black default "$symbols "
 }
 
 ## Main prompt
