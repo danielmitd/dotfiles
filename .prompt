@@ -38,9 +38,9 @@ prompt_segment() {
   [[ -n $1 ]] && b="$bg[$1]" || b="$bg[black]"
   [[ -n $2 ]] && f="$fg[$2]" || f="$fg[white]"
   if [[ $CURRENT_BG != 'NONE' && $1 != $CURRENT_BG ]]; then
-    echo -n " $b$fg[$CURRENT_BG]$SEGMENT_SEPARATOR$f "
+    echo -n " %{$b$fg[$CURRENT_BG]%}$SEGMENT_SEPARATOR%{$f%} "
   else
-    echo -n "$b$f "
+    echo -n "%{$b$f%}"
   fi
   CURRENT_BG=$1
   [[ -n $3 ]] && echo -n $3
@@ -55,11 +55,11 @@ prompt_context() {
 # End the prompt, closing any open segments
 prompt_end() {
   if [[ -n $CURRENT_BG ]]; then
-    echo -n " $reset_color$fg[$CURRENT_BG]$SEGMENT_SEPARATOR"
+    echo -n " %{$reset_color$fg[$CURRENT_BG]%}$SEGMENT_SEPARATOR"
   else
-    echo -n "$reset_color"
+    echo -n "%{$reset_color%}"
   fi
-  echo -n "$reset_color"
+  echo -n "%{$reset_color%}"
   CURRENT_BG=''
 }
 
@@ -104,9 +104,9 @@ prompt_dir() {
 prompt_status() {
   local symbols
   symbols=()
-  [[ $RETVAL -ne 0 ]] && symbols+="$fg[red]✘"
-  [[ $UID -eq 0 ]] && symbols+="$fg[yellow]⚡"
-  [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="$fg[cyan]⚙"
+  [[ $RETVAL -ne 0 ]] && symbols+="%{$fg[red]%}✘ "
+  [[ $UID -eq 0 ]] && symbols+="%{$fg[yellow]%}⚡ "
+  [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="%{$fg[cyan]%}⚙ "
 
   [[ -n "$symbols" ]] && prompt_segment black default "$symbols"
 }
@@ -121,4 +121,4 @@ build_prompt() {
   prompt_end
 }
 
-PROMPT='$reset_color$(build_prompt)$reset_color '
+PROMPT='%{$reset_color%}$(build_prompt)%{$reset_color%} '
