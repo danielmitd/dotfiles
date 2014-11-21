@@ -1,0 +1,40 @@
+#compdef git-pr-check
+
+_git-pr-check() {
+    local curcontext="$curcontext" state
+    typeset -A opt_args
+
+    _arguments \
+        '1: :->repo'
+
+    case $state in
+    repo)
+        local cache_policy
+        local -a repos
+
+        . ~/.githelper
+
+        zstyle -s ":completion:${curcontext}:" cache-policy cache_policy
+        if [[ -z "$cache_policy" ]]; then
+            zstyle ":completion:${curcontext}:" cache-policy _jc_branches_caching_policy
+        fi
+
+        if _cache_invalid  "jc-repos" || ! _retrieve_cache "jc-repos"; then
+            repos=("${(@f)$(curl -s -XGET -u$_git_auth https://api.github.com/orgs/$_git_org/repos\?type=private\&per_page=200 | jq -r '.[].name')}")
+            _store_cache "jc-repos" repos
+        fi
+
+        _describe -t commands "$_git_org repos" repos
+    ;;
+    esac
+
+    return 0
+}
+
+_jc_branches_caching_policy() {
+  local -a oldp
+  oldp=( "$1"(Nmh+1) )     # 1 hour
+  (( $#oldp ))
+}
+
+_git-pr-check "$@"
