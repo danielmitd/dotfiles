@@ -1,20 +1,12 @@
 [alias]
     st = status
-    ci = commit
-    br = branch
     co = checkout
-    df = diff
-    dc = diff --cached
-    lg = log -p
     lol = log --graph --decorate --pretty=oneline --abbrev-commit
     lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
-    ls = ls-files
-    keep = update-index --assume-unchanged
-    keep-off = update-index --no-assume-unchanged
-
-    # Show files ignored by git:
-    ign = ls-files -o -i --exclude-standard
-    up = pull --rebase
+    l3 = log --pretty=oneline -3
+    incomming = "!f() { a=`git rev-parse --abbrev-ref HEAD`; git log $a..origin/$a --format=\"%Cred%h%Creset - %s (%Cblue%aN%Creset, %ad)\" --date=relative --stat; }; f"
+    incomming-diff = "!f() { a=`git rev-parse --abbrev-ref HEAD`; git diff $a..origin/$a --ignore-all-space; }; f"
+    deploy = "!f() { d=$(basename `git rev-parse --show-toplevel`); deploy -p $d $@; }; f"
 [difftool "Kaleidoscope"]
     cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
 [difftool]
@@ -64,5 +56,10 @@
 [merge]
 	tool = Kaleidoscope
 [filter "media"]
-	clean = git-media-clean %f
-	smudge = git-media-smudge %f
+	required = true
+	clean = git media clean %f
+	smudge = git media smudge %f
+[filter "hawser"]
+	clean = git hawser clean %f
+	smudge = git hawser smudge %f
+	required = true

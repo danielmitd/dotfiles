@@ -28,7 +28,7 @@ parse_git_changes() {
 }
 
 CURRENT_BG='NONE'
-SEGMENT_SEPARATOR='%{%2G%}'
+SEGMENT_SEPARATOR='%{%G%}'
 
 # Begin a segment
 # Takes two arguments, background and foreground. Both can be omitted,
@@ -50,7 +50,7 @@ prompt_segment() {
 prompt_context() {
   local c
 	local user=`whoami`
-  [[ "$user" == "jobsworker" ]] && c="$fg_bold[green]" || c="$fg_bold[blue]"	
+  [[ "$user" == "jobsworker" ]] && c="$fg_bold[green]" || c="$fg_bold[blue]"
   prompt_segment black default " %{%(!.$fg[red].)$c%}$user%{$reset_color%}@%m"
 }
 
