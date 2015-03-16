@@ -22,13 +22,13 @@ parse_git_changes() {
     behind=$(git rev-list HEAD..origin/${git_where} --count 2> /dev/null)
     ahead=$(git rev-list origin/${git_where}..HEAD --count 2> /dev/null)
     echo " ↑$ahead ↓$behind"
-  else
+ else
     echo " ?"
   fi
 }
 
 CURRENT_BG='NONE'
-SEGMENT_SEPARATOR=''
+SEGMENT_SEPARATOR='%{%2G%}'
 
 # Begin a segment
 # Takes two arguments, background and foreground. Both can be omitted,
@@ -48,8 +48,10 @@ prompt_segment() {
 
 # Context: user@hostname (who am I and where am I)
 prompt_context() {
-  local user=`whoami`
-  prompt_segment black default "%(!.%{$fg[red]%}.)$user@%m"
+  local c
+	local user=`whoami`
+  [[ "$user" == "jobsworker" ]] && c="$fg_bold[green]" || c="$fg_bold[blue]"	
+  prompt_segment black default " %{%(!.$fg[red].)$c%}$user%{$reset_color%}@%m"
 }
 
 # End the prompt, closing any open segments
@@ -89,7 +91,7 @@ prompt_git() {
 
     setopt promptsubst
     echo -n "${ref/refs\/heads\//}$(parse_git_changes)${mode}"
-  fi
+	fi
 }
 
 # Dir: current working directory
@@ -97,24 +99,14 @@ prompt_dir() {
   prompt_segment blue black '%c'
 }
 
-# Status:
-# - was there an error
-# - am I root
-# - are there background jobs?
-prompt_status() {
-  local symbols
-  symbols=()
-  [[ $RETVAL -ne 0 ]] && symbols+="%{$fg[red]%}✘"
-  [[ $UID -eq 0 ]] && symbols+="%{$fg[yellow]%}⚡"
-  [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="%{$fg[cyan]%}⚙"
-
-  [[ -n "$symbols" ]] && prompt_segment black default "$symbols "
+prompt_time() {
+  prompt_segment black default "[`date +%H:%M:%S`]"
 }
 
 ## Main prompt
 build_prompt() {
   RETVAL=$?
-  prompt_status
+  prompt_time
   prompt_context
   prompt_dir
   prompt_git
