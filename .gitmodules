@@ -1,9 +1,0 @@
-[submodule "z"]
-	path = z
-	url = git@github.com:rupa/z.git
-[submodule "theme"]
-	path = theme
-	url = git@github.com:hukl/Smyck-Color-Scheme.git
-[submodule "zsh-completions"]
-	path = zsh-completions
-	url = git@github.com:zsh-users/zsh-completions.git
