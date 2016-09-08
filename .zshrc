@@ -1,8 +1,7 @@
 #!/usr/bin/env zsh
 
 # Load the other dotfiles
-for file in ~/.dotfiles/.{aliases,keys,prompt}; do
-# for file in ~/.dotfiles/.{keys,prompt,exports,aliases,paths,completion}; do
+for file in ~/.dotfiles/.{aliases,keys,prompt,exports,paths}; do
     [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done
 unset file
