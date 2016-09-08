@@ -1,9 +1,17 @@
-umask 002
+#!/usr/bin/env zsh
 
 # Load the other dotfiles
-for file in ~/.dotfiles/.{keys,prompt,exports,aliases,paths,completion}; do
-    [ -r "$file" ] && source "$file"
+for file in ~/.dotfiles/.{aliases,keys,prompt}; do
+# for file in ~/.dotfiles/.{keys,prompt,exports,aliases,paths,completion}; do
+    [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done
 unset file
 
-. ~/.dotfiles/z/z.sh
+# add zsh completions if available
+if [[ -d /usr/local/share/zsh-completions ]]; then
+    fpath=(/usr/local/share/zsh-completions $fpath)
+fi
+
+if [[ -f /usr/local/etc/profile.d/z.sh ]]; then
+    . /usr/local/etc/profile.d/z.sh
+fi

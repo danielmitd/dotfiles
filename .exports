@@ -1,4 +1,7 @@
+#!/usr/bin/env zsh
+
 # editor stuff
+# TODO add if
 export EDITOR="subl -w"
 export SVN_EDITOR='subl -w'
 
