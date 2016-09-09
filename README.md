@@ -10,4 +10,3 @@ Install
 git clone git@github.com:danielmitd/dotfiles.git
 cd dotfiles; ./bootstrap.sh
 ```
-
