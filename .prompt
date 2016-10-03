@@ -65,6 +65,24 @@ prompt_end() {
   CURRENT_BG=''
 }
 
+vagrant_status() {
+
+  if [[ ! -d .vagrant ]]; then
+    exit 127
+  fi
+
+  # do not use vagrant status since it is pretty slow
+  local vm_id vm_state
+  vm_id=`cat .vagrant/machines/default/virtualbox/id`
+  vm_state=`VBoxManage showvminfo $vm_id --machinereadable | egrep "VMState=\"\w+\"" | cut -d\" -f2`
+
+  if [[ $vm_state != "running" ]]; then
+    prompt_segment default white "vm %{$fg[red]%}☾%{$reset_color%}"
+  else
+    prompt_segment default white "vm %{$fg[yellow]%}☀%{$reset_color%}"
+  fi
+}
+
 # Git: branch/detached head, dirty status
 prompt_git() {
   local ref dirty mode repo_path
@@ -109,6 +127,7 @@ build_prompt() {
   prompt_context
   prompt_dir
   prompt_git
+  vagrant_status
   prompt_end
 }
 
