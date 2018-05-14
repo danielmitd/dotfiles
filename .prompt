@@ -19,9 +19,8 @@ parse_git_branch() {
 
 parse_git_changes() {
   if $(git remote 2> /dev/null | grep -iq 'origin') ;then
-    local git_where="$(parse_git_branch)"
-    behind=$(git rev-list HEAD..origin/${git_where} --count 2> /dev/null)
-    ahead=$(git rev-list origin/${git_where}..HEAD --count 2> /dev/null)
+    behind=$(git rev-list HEAD..$1 --count 2> /dev/null)
+    ahead=$(git rev-list $1..HEAD --count 2> /dev/null)
     echo " ↑$ahead ↓$behind"
   else
     echo " ?"
@@ -55,7 +54,7 @@ prompt_segment() {
 
 # Context: user@hostname (who am I and where am I)
 prompt_context() {
-	local user=`whoami`
+	local user=$(whoami)
   prompt_segment default default "%{$fg_bold[blue]%}$user%{$reset_color%}%{$fg[white]%}@%m"
 }
 
@@ -65,10 +64,14 @@ prompt_end() {
   CURRENT_BG=''
 }
 
-vagrant_status() {
+_vagrant_status() {
 
   if [[ ! -d .vagrant ]]; then
-    exit 127
+    exit 0
+  fi
+
+  if [[ ! -f .vagrant/machines/default/virtualbox/id ]]; then
+    exit 0
   fi
 
   # do not use vagrant status since it is pretty slow
@@ -106,9 +109,11 @@ prompt_git() {
       mode=" >R>"
     fi
 
+    git_remote_branch=$(git rev-parse --abbrev-ref --symbolic-full-name @{u})
+    git_changes=$(parse_git_changes "${git_remote_branch}")
     setopt promptsubst
-    echo -n "%{$fg_bold[$CURRENT_FG]%}$(parse_git_branch)%{$reset_color%}%{$fg[$CURRENT_FG]%}$(parse_git_changes)${mode}"
-	fi
+    echo -n "%{$fg_bold[$CURRENT_FG]%}$(parse_git_branch)%{$reset_color%}%{$fg[$CURRENT_FG]%}${git_changes}${mode}"
+  fi
 }
 
 # Dir: current working directory
@@ -127,8 +132,13 @@ build_prompt() {
   prompt_context
   prompt_dir
   prompt_git
-  vagrant_status
+  _vagrant_status
   prompt_end
 }
 
 PROMPT=$'%{$reset_color%}$(build_prompt)%{$reset_color%}\n%{$fg[yellow]%}\U2605%{$reset_color%}  '
+TMOUT=10
+
+TRAPALRM() {
+    zle reset-prompt
+}
